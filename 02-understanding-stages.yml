@@ -10,36 +10,51 @@ stages:
     steps:
     - bash: echo Build FirstJob
     - bash: echo $(Job_name)
-  - job: SecondJob
-    steps:
-    - bash: echo Build SecondJob
+    - bash: mvn -version
+    - bash: java -version
+    - bash: node --version
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.yaml
+          **/*.tf
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+#   - job: SecondJob
+#     steps:
+#     - bash: echo Build SecondJob
 
-- stage: DevDeploy
-  variables:
-    environment: Dev
-  dependsOn: Build
-  jobs:
-    - job: DevDeployJob
-      steps:
-      - bash: echo $(environment)DeployJob
+# - stage: DevDeploy
+#   variables:
+#     environment: Dev
+#   dependsOn: Build
+#   jobs:
+#     - job: DevDeployJob
+#       steps:
+#       - bash: echo $(environment)DeployJob
     
-- stage: QADeploy
-  variables:
-      environment: QA
-  dependsOn: Build
-  jobs:
-    - job: QADeployJob
-      steps:
-      - bash: echo $(environment)DeployJob
+# - stage: QADeploy
+#   variables:
+#       environment: QA
+#   dependsOn: Build
+#   jobs:
+#     - job: QADeployJob
+#       steps:
+#       - bash: echo $(environment)DeployJob
   
 
-- stage: ProdDeploy
-  dependsOn:
-  - DevDeploy
-  - QADeploy
-  jobs:
-    - job: ProdDeployJob
-      steps:
-      - bash: echo ProdDeployJob
+# - stage: ProdDeploy
+#   dependsOn:
+#   - DevDeploy
+#   - QADeploy
+#   jobs:
+#     - job: ProdDeployJob
+#       steps:
+#       - bash: echo ProdDeployJob
     
 
