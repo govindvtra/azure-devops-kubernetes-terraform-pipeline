@@ -24,6 +24,15 @@ stages:
     #     command: 'buildAndPush'
     #     Dockerfile: '**/Dockerfile'
     #     tags: '$(tag)'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo '$(Build.ArtifactStagingDirectory)'
+          
+          echo '$(System.DefaultWorkingDirectory)'
+          
+          echo '$(System.ArtifactsDirectory)'
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
@@ -46,7 +55,6 @@ stages:
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'current'
-        downloadType: 'single'
         artifactName: 'manifests'
         itemPattern: '**/*.yaml'
         downloadPath: '$(System.ArtifactsDirectory)'
