@@ -74,9 +74,7 @@ resources:
 - repo: self
 
 variables:
-   tag: 31    
-   
-  #  '$(Build.BuildId)'
+   tag: '$(Build.BuildId)'
 
 stages:
 
@@ -92,13 +90,13 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    # - task: Docker@2
-    #   inputs:
-    #     containerRegistry: 'Docker-Azure'
-    #     repository: 'govindr007/currency-exchange-devops'
-    #     command: 'buildAndPush'
-    #     Dockerfile: '**/Dockerfile'
-    #     tags: '$(tag)'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker-Azure'
+        repository: 'govindr007/currency-exchange-devops'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
