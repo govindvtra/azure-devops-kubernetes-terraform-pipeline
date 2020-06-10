@@ -35,11 +35,11 @@ stages:
         ArtifactName: 'manifests'
         publishLocation: 'Container'
 
-- stage: Build
-  displayName: Build image
+- stage: Deploy
+  displayName: Deploy image
   jobs:  
-  - job: Build
-    displayName: Build
+  - job: Deploy
+    displayName: Deploy
     pool:
       vmImage: 'ubuntu-latest'
     steps:
