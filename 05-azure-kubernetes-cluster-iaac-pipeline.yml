@@ -11,7 +11,7 @@ steps:
 - task: DownloadSecureFile@1
   name: publickey
   inputs:
-    secureFile: 'azure_rsa.pub'
+    secureFile: 'ssh_key_azure.pub'
 - task: TerraformCLI@0
   inputs:
     command: 'init'
